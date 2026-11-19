@@ -1,0 +1,204 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #101827, #243b55);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.game-container {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 20px;
+    width: 95%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 10px 30px #0008;
+}
+
+h1 {
+    color: #facc15;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #cbd5e1;
+    margin-bottom: 20px;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.info-box {
+    background: #334155;
+    padding: 12px;
+    border-radius: 10px;
+    flex: 1;
+}
+
+.info-box span {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.info-box h2 {
+    color: #facc15;
+    margin-top: 5px;
+}
+
+.puzzle {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background: #0f172a;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.tile {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 10px;
+    background: #38bdf8;
+    color: #082f49;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0369a1;
+}
+
+.tile:active {
+    transform: scale(0.95);
+}
+
+.tile.empty {
+    background: #0f172a;
+    box-shadow: none;
+    cursor: default;
+}
+
+#message {
+    color: #facc15;
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 13px 5px;
+    border: none;
+    border-radius: 10px;
+    background: #facc15;
+    color: #172554;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    background: #eab308;
+}
+
+.level-info {
+    margin-top: 18px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.music-controls {
+    margin-top: 15px;
+}
+
+#musicBtn {
+    background: #a78bfa;
+    color: #1e1b4b;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+#musicBtn:hover {
+    background: #8b5cf6;
+}
+
+.music-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.music-controls button {
+    padding: 13px 18px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#playMusic {
+    background: #22c55e;
+    color: white;
+}
+
+#stopMusic {
+    background: #ef4444;
+    color: white;
+}
+
+.music-controls button:hover {
+    transform: scale(1.05);
+    opacity: 0.85;
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 13px 28px;
+    background: linear-gradient(135deg, #00d9ff, #0066ff);
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    border: 2px solid #00eaff;
+    box-shadow: 0 0 15px #00cfff;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #ffffff;
+    color: #0066ff;
+    transform: scale(1.08);
+    box-shadow: 0 0 25px #00eaff;
+}
+
+
+
+
+.logo {
+    width: 60px;
+    height: 60x;
+    object-fit: contain;
+    border-radius: 50%;
+}

@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRUCE GAMES</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+.back-btn {
+    display: inline-block;
+    padding: 13px 28px;
+    background: linear-gradient(135deg, #00d9ff, #0066ff);
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    border: 2px solid #00eaff;
+    box-shadow: 0 0 15px #00cfff;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #ffffff;
+    color: #0066ff;
+    transform: scale(1.08);
+    box-shadow: 0 0 25px #00eaff;
+}
+
+
+
+
+
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #101827;
+    color: white;
+    transition: 0.3s;
+}
+
+body.light {
+    background: #f1f5f9;
+    color: #111827;
+}
+
+header {
+    background: #020617;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 3px solid #facc15;
+}
+
+header h1 {
+    color: #facc15;
+    margin: 0;
+    font-size: 30px;
+}
+
+header p {
+    color: #94a3b8;
+}
+
+.container {
+    max-width: 750px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.section {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.light .section {
+    background: white;
+}
+
+h2 {
+    color: #facc15;
+    border-bottom: 1px solid #475569;
+    padding-bottom: 10px;
+}
+
+.setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #475569;
+    gap: 10px;
+}
+
+button, select {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button {
+    background: #facc15;
+    color: #111827;
+}
+
+button:hover {
+    background: #eab308;
+}
+
+.game {
+    display: block;
+    background: #334155;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px 0;
+    color: white;
+    text-decoration: none;
+}
+
+.game:hover {
+    background: #475569;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #facc15;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏎️ BRUCE GAMES</h1>
+    <p>WELCOME TO BRUCE GAMING WORLD</p>
+</header>
+
+<div class="container">
+
+    <div class="section">
+        <h2>⚙️ GAME SETTINGS</h2>
+
+        <div class="setting">
+            <span>🔊 Sound</span>
+            <button onclick="toggleSound()" id="soundBtn">ON</button>
+        </div>
+
+        <div class="setting">
+            <span>🎵 Music</span>
+            <button onclick="toggleMusic()" id="musicBtn">ON</button>
+        </div>
+
+        <div class="setting">
+            <span>🌙 Theme</span>
+            <button onclick="toggleTheme()">CHANGE</button>
+        </div>
+
+        <div class="setting">
+            <span>🎚️ Difficulty</span>
+            <select id="difficulty">
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+            </select>
+        </div>
+
+        <div class="setting">
+            <span>🏆 High Score</span>
+            <strong id="highScore">0</strong>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎮 ALL BRUCE GAMES</h2>
+
+    
+
+        <a class="game" href="indexb.html">
+            🔢 CROSS GAME
+        </a>
+
+        <a class="game" href="indexc.html">
+            🔢 MATH GAME
+        </a>
+
+        <a class="game" href="indexa.html">
+            🧩 PUZZLE GAME
+        </a>
+
+    </div>
+
+    <div class="section">
+        <h2>🔄 RESET SETTINGS</h2>
+        <button onclick="resetSettings()">RESET ALL</button>
+    </div>
+ <a href="index.html" class="back-btn"> BACK</a>
+</div>
+
+<footer>
+    🏁 POWERED BY BRUCE GAMES © 2026
+</footer>
+
+<script>
+let sound = true;
+let music = true;
+
+function toggleSound() {
+    sound = !sound;
+    document.getElementById("soundBtn").innerText =
+        sound ? "ON" : "OFF";
+}
+
+function toggleMusic() {
+    music = !music;
+    document.getElementById("musicBtn").innerText =
+        music ? "ON" : "OFF";
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("light");
+}
+
+function resetSettings() {
+    sound = true;
+    music = true;
+
+    document.getElementById("soundBtn").innerText = "ON";
+    document.getElementById("musicBtn").innerText = "ON";
+    document.getElementById("difficulty").value = "Easy";
+
+    document.body.classList.remove("light");
+}
+
+// Load high score
+document.getElementById("highScore").innerText =
+    localStorage.getItem("bruceHighScore") || 0;
+</script>
+
+</body>
+</html>

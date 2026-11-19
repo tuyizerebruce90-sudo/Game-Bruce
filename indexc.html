@@ -1,0 +1,531 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bruce Math Challenge</title>
+ <link rel="stylesheet" href="style.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #101827, #1e3a8a);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.game {
+    width: 100%;
+    max-width: 480px;
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 35px #0008;
+}
+
+h1 {
+    color: #facc15;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #cbd5e1;
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: #334155;
+    padding: 12px 5px;
+    border-radius: 10px;
+}
+
+.stat span {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.stat h2 {
+    color: #facc15;
+    margin-top: 5px;
+}
+
+select, input {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.question-box {
+    background: #0f172a;
+    padding: 25px 10px;
+    border-radius: 15px;
+    margin: 15px 0;
+}
+
+.question {
+    font-size: 35px;
+    font-weight: bold;
+    color: #38bdf8;
+}
+
+input {
+    text-align: center;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+button {
+    border: none;
+    padding: 13px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+#checkBtn {
+    background: #22c55e;
+    color: white;
+    width: 100%;
+}
+
+#nextBtn {
+    background: #facc15;
+    color: #172554;
+    width: 100%;
+    margin-top: 10px;
+    display: none;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.controls button {
+    flex: 1;
+    background: #475569;
+    color: white;
+}
+
+#message {
+    margin: 15px 0;
+    min-height: 25px;
+    font-weight: bold;
+}
+
+#progress {
+    background: #475569;
+    height: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+#bar {
+    height: 100%;
+    width: 0%;
+    background: #22c55e;
+    transition: .3s;
+}
+
+.footer {
+    margin-top: 20px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <h1>🧮 BRUCE MATH GAME</h1>
+    <p class="subtitle">Learn Mathematics Through Playing!</p>
+
+    <div class="stats">
+
+        <div class="stat">
+            <span>LEVEL</span>
+            <h2 id="level">1</h2>
+        </div>
+
+        <div class="stat">
+            <span>SCORE</span>
+            <h2 id="score">0</h2>
+        </div>
+
+        <div class="stat">
+            <span>TIME</span>
+            <h2 id="time">60</h2>
+        </div>
+
+    </div>
+
+    <select id="operation">
+        <option value="all">All Operations</option>
+        <option value="add">Addition (+)</option>
+        <option value="sub">Subtraction (-)</option>
+        <option value="mul">Multiplication (×)</option>
+        <option value="div">Division (÷)</option>
+    </select>
+
+    <div class="question-box">
+        <p>What is the answer?</p>
+        <div class="question" id="question">5 + 3 = ?</div>
+    </div>
+
+    <input
+        type="number"
+        id="answer"
+        placeholder="Enter your answer"
+    >
+
+    <button id="checkBtn" onclick="checkAnswer()">
+        CHECK ANSWER ✓
+    </button>
+
+    <button id="nextBtn" onclick="newQuestion()">
+        NEXT QUESTION ➜
+    </button>
+
+    <p id="message">Good luck! Start playing.</p>
+
+    <div id="progress">
+        <div id="bar"></div>
+    </div>
+
+    <div class="controls">
+        <button onclick="restartGame()">↻ RESTART</button>
+        <button onclick="toggleVoice()" id="voiceBtn">🔊 VOICE ON</button>
+        <a href="index.html" class="back-btn"> BACK</a>
+    </div>
+
+    <p class="footer">
+        © 2026 BRUCE MATH CHALLENGE
+    </p>
+
+</div>
+
+<script>
+
+// GAME VARIABLES
+
+let level = 1;
+let score = 0;
+let time = 60;
+let correctAnswers = 0;
+let answerCorrect = 0;
+let voiceOn = true;
+let gameOver = false;
+let answered = false;
+
+let timer;
+
+// HTML ELEMENTS
+
+const question = document.getElementById("question");
+const answer = document.getElementById("answer");
+const message = document.getElementById("message");
+
+const levelDisplay = document.getElementById("level");
+const scoreDisplay = document.getElementById("score");
+const timeDisplay = document.getElementById("time");
+
+const checkBtn = document.getElementById("checkBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+// VOICE FUNCTION
+
+function speak(text) {
+
+    if (!voiceOn || !("speechSynthesis" in window)) {
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    let speech = new SpeechSynthesisUtterance(text);
+
+    speech.lang = "en-US";
+    speech.rate = 0.9;
+    speech.pitch = 1.1;
+
+    speechSynthesis.speak(speech);
+}
+
+// GENERATE RANDOM NUMBERS
+
+function randomNumber(max) {
+    return Math.floor(Math.random() * max) + 1;
+}
+
+// GENERATE QUESTION
+
+function newQuestion() {
+
+    if (gameOver) return;
+
+    answered = false;
+
+    let max = Math.min(10 + level * 5, 1000);
+
+    let a = randomNumber(max);
+    let b = randomNumber(max);
+
+    let operations = ["add", "sub", "mul", "div"];
+
+    let selected = document.getElementById("operation").value;
+
+    let op = selected === "all"
+        ? operations[Math.floor(Math.random() * operations.length)]
+        : selected;
+
+    if (op === "add") {
+
+        answerCorrect = a + b;
+
+        question.textContent = a + " + " + b + " = ?";
+
+    }
+
+    else if (op === "sub") {
+
+        if (b > a) {
+            [a, b] = [b, a];
+        }
+
+        answerCorrect = a - b;
+
+        question.textContent = a + " - " + b + " = ?";
+
+    }
+
+    else if (op === "mul") {
+
+        answerCorrect = a * b;
+
+        question.textContent = a + " × " + b + " = ?";
+
+    }
+
+    else if (op === "div") {
+
+        b = randomNumber(Math.min(10 + level, 100));
+
+        answerCorrect = randomNumber(Math.min(10 + level * 2, 200));
+
+        a = b * answerCorrect;
+
+        question.textContent = a + " ÷ " + b + " = ?";
+
+    }
+
+    answer.value = "";
+    answer.focus();
+
+    message.textContent = "Think carefully! 🧠";
+
+    checkBtn.style.display = "block";
+    nextBtn.style.display = "none";
+}
+
+// CHECK ANSWER
+
+function checkAnswer() {
+
+    if (gameOver || answered) return;
+
+    if (answer.value.trim() === "") {
+        message.textContent = "Please enter your answer!";
+        return;
+    }
+
+    let userAnswer = Number(answer.value);
+
+    answered = true;
+
+    if (userAnswer === answerCorrect) {
+
+        score += level * 10;
+
+        correctAnswers++;
+
+        message.textContent = "🎉 CORRECT! EXCELLENT!";
+
+        speak("Excellent! Your answer is correct!");
+
+        // LEVEL UP EVERY 5 CORRECT ANSWERS
+
+        if (correctAnswers % 5 === 0) {
+
+            level++;
+
+            message.textContent =
+                "🏆 LEVEL UP! WELCOME TO LEVEL " + level;
+
+            speak("Congratulations! Welcome to level " + level);
+
+        }
+
+    } else {
+
+        message.textContent =
+            "❌ WRONG! Correct answer is " + answerCorrect;
+
+        speak("Wrong answer. Try again next time!");
+
+    }
+
+    updateStats();
+
+    checkBtn.style.display = "none";
+    nextBtn.style.display = "block";
+
+    document.getElementById("bar").style.width =
+        (correctAnswers % 5) * 20 + "%";
+}
+
+// UPDATE GAME INFORMATION
+
+function updateStats() {
+
+    levelDisplay.textContent = level;
+    scoreDisplay.textContent = score;
+
+}
+
+// TIMER
+
+function startTimer() {
+
+    clearInterval(timer);
+
+    timer = setInterval(function() {
+
+        time--;
+
+        timeDisplay.textContent = time;
+
+        if (time <= 0) {
+
+            clearInterval(timer);
+
+            gameOver = true;
+
+            question.textContent = "GAME OVER!";
+
+            message.textContent =
+                "🏆 Final Score: " + score;
+
+            speak("Game over! Your final score is " + score);
+
+            checkBtn.style.display = "none";
+            nextBtn.style.display = "none";
+
+        }
+
+    }, 1000);
+
+}
+
+// RESTART GAME
+
+function restartGame() {
+
+    clearInterval(timer);
+
+    level = 1;
+    score = 0;
+    time = 60;
+    correctAnswers = 0;
+
+    gameOver = false;
+    answered = false;
+
+    updateStats();
+
+    timeDisplay.textContent = time;
+
+    document.getElementById("bar").style.width = "0%";
+
+    message.textContent = "New game started!";
+
+    newQuestion();
+
+    startTimer();
+
+    speak("Welcome to Bruce Math Challenge!");
+}
+
+// VOICE ON/OFF
+
+function toggleVoice() {
+
+    voiceOn = !voiceOn;
+
+    document.getElementById("voiceBtn").textContent =
+        voiceOn ? "🔊 VOICE ON" : "🔇 VOICE OFF";
+
+    if (!voiceOn) {
+        speechSynthesis.cancel();
+    } else {
+        speak("Voice is now on!");
+    }
+
+}
+
+// ENTER KEY
+
+answer.addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+
+        if (answered) {
+            newQuestion();
+        } else {
+            checkAnswer();
+        }
+
+    }
+
+});
+
+// START GAME
+
+newQuestion();
+
+startTimer();
+
+</script>
+
+</body>
+</html>

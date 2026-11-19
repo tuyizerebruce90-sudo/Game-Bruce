@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bruce Cross Number Game</title>
+    <link rel="stylesheet" href="style.css">
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg,#101827,#243b55);
+    font-family: Arial, sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.game {
+    width: 100%;
+    max-width: 750px;
+    background: #1e293b;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 10px 35px #0008;
+}
+
+h1 {
+    text-align: center;
+    color: #facc15;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #cbd5e1;
+    margin-bottom: 22px;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(4, 65px);
+    grid-template-rows: repeat(3, 65px);
+    gap: 7px;
+}
+
+.tile {
+    background: #38bdf8;
+    color: #082f49;
+    border: none;
+    border-radius: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0369a1;
+}
+
+.tile:hover {
+    background: #7dd3fc;
+}
+
+.tile.correct {
+    background: #22c55e;
+    color: white;
+    box-shadow: 0 4px 0 #15803d;
+    cursor: default;
+}
+
+.tile.wrong {
+    background: #ef4444;
+    color: white;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    min-width: 125px;
+}
+
+.stat {
+    background: #334155;
+    padding: 14px 10px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.stat span {
+    font-size: 12px;
+    color: #cbd5e1;
+}
+
+.stat h2 {
+    color: #facc15;
+    margin-top: 7px;
+}
+
+.instruction {
+    text-align: center;
+    background: #0f172a;
+    padding: 15px;
+    margin-top: 22px;
+    border-radius: 12px;
+    color: #38bdf8;
+    font-weight: bold;
+}
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    min-height: 25px;
+    color: #facc15;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#restart {
+    background: #facc15;
+    color: #172554;
+}
+
+#sound {
+    background: #a78bfa;
+    color: #1e1b4b;
+}
+
+@media(max-width: 520px) {
+    .main {
+        gap: 12px;
+    }
+
+    .board {
+        grid-template-columns: repeat(4, minmax(42px, 55px));
+        grid-template-rows: repeat(3, 55px);
+        gap: 5px;
+    }
+
+    .tile {
+        font-size: 19px;
+    }
+
+    .stats {
+        min-width: 85px;
+    }
+
+    .stat {
+        padding: 12px 5px;
+    }
+
+    .stat h2 {
+        font-size: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+<h1>🎮 BRUCE CROSS GAME</h1>
+<p class="subtitle">Arrange numbers from smallest to largest</p>
+
+<div class="main">
+
+    <!-- CROSS NUMBER BOXES -->
+    <div class="board" id="board">
+
+        <!-- TOP: 2 BOXES -->
+        <button class="tile" style="grid-area:1/2"></button>
+        <button class="tile" style="grid-area:1/3"></button>
+
+        <!-- MIDDLE: 4 BOXES -->
+        <button class="tile" style="grid-area:2/1"></button>
+        <button class="tile" style="grid-area:2/2"></button>
+        <button class="tile" style="grid-area:2/3"></button>
+        <button class="tile" style="grid-area:2/4"></button>
+
+        <!-- BOTTOM: 2 BOXES -->
+        <button class="tile" style="grid-area:3/2"></button>
+        <button class="tile" style="grid-area:3/3"></button>
+
+    </div>
+
+    <!-- GAME INFORMATION -->
+    <div class="stats">
+
+        <div class="stat">
+            <span>LEVEL</span>
+            <h2 id="level">1</h2>
+        </div>
+
+        <div class="stat">
+            <span>SCORE</span>
+            <h2 id="score">0</h2>
+        </div>
+
+        <div class="stat">
+            <span>BOX NUMBER</span>
+            <h2 id="boxNumber">0/8</h2>
+        </div>
+
+        <div class="stat">
+            <span>NEXT NUMBER</span>
+            <h2 id="nextNumber">?</h2>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="instruction">
+    🔢 Click numbers starting from the smallest!
+</div>
+
+<p id="message">Find number 1 to begin!</p>
+
+<div class="buttons">
+    <button id="restart" onclick="startGame()">
+        🔄 RESTART
+    </button>
+
+    <button id="sound" onclick="toggleSound()">
+        🔊 SOUND ON
+    </button>
+    <a href="index.html" class="back-btn">👤 BACK</a>
+</div>
+
+</div>
+
+<script>
+
+let level = 1;
+let score = 0;
+let selected = 0;
+let soundOn = true;
+
+let numbers = [];
+let sortedNumbers = [];
+
+const board = document.getElementById("board");
+const message = document.getElementById("message");
+
+const tiles = Array.from(
+    board.querySelectorAll(".tile")
+);
+
+// SOUND
+function speak(text) {
+
+    if (!soundOn) return;
+
+    if ("speechSynthesis" in window) {
+
+        speechSynthesis.cancel();
+
+        let voice = new SpeechSynthesisUtterance(text);
+
+        voice.lang = "en-US";
+        voice.rate = 0.9;
+
+        speechSynthesis.speak(voice);
+    }
+}
+
+// GENERATE NUMBERS
+function generateNumbers() {
+
+    let max = 8 + (level - 1) * 5;
+
+    numbers = [];
+
+    while (numbers.length < 8) {
+
+        let n = Math.floor(Math.random() * max) + 1;
+
+        if (!numbers.includes(n)) {
+            numbers.push(n);
+        }
+    }
+
+    sortedNumbers = [...numbers].sort((a,b) => a-b);
+
+    // Mix numbers
+    numbers.sort(() => Math.random() - 0.5);
+}
+
+// START GAME
+function startGame() {
+
+    selected = 0;
+
+    generateNumbers();
+
+    tiles.forEach((tile,index) => {
+
+        tile.textContent = numbers[index];
+
+        tile.classList.remove("correct","wrong");
+
+        tile.disabled = false;
+
+        tile.onclick = () => selectNumber(index);
+
+    });
+
+    updateStats();
+
+    message.textContent = "Find the smallest number!";
+
+    speak("Welcome to level " + level);
+}
+
+// SELECT NUMBER
+function selectNumber(index) {
+
+    if (tiles[index].disabled) return;
+
+    let clickedNumber = numbers[index];
+
+    let expectedNumber = sortedNumbers[selected];
+
+    if (clickedNumber === expectedNumber) {
+
+        tiles[index].classList.add("correct");
+
+        tiles[index].disabled = true;
+
+        selected++;
+
+        message.textContent = "Excellent! Correct number!";
+
+        speak("Correct!");
+
+        updateStats();
+
+        if (selected === 8) {
+
+            score += level * 100;
+
+            updateStats();
+
+            message.textContent =
+                "🏆 Congratulations! Level completed!";
+
+            speak("Congratulations! You completed this level!");
+
+            setTimeout(() => {
+
+                level++;
+
+                startGame();
+
+            }, 1800);
+        }
+
+    } else {
+
+        tiles[index].classList.add("wrong");
+
+        message.textContent =
+            "❌ Wrong! Find number " + expectedNumber;
+
+        speak("Try again!");
+
+        setTimeout(() => {
+            tiles[index].classList.remove("wrong");
+        }, 500);
+    }
+}
+
+// UPDATE INFORMATION
+function updateStats() {
+
+    document.getElementById("level").textContent = level;
+
+    document.getElementById("score").textContent = score;
+
+    document.getElementById("boxNumber").textContent =
+        selected + "/8";
+
+    document.getElementById("nextNumber").textContent =
+        selected < 8 ? sortedNumbers[selected] : "DONE";
+}
+
+// SOUND ON/OFF
+function toggleSound() {
+
+    soundOn = !soundOn;
+
+    document.getElementById("sound").textContent =
+        soundOn ? "🔊 SOUND ON" : "🔇 SOUND OFF";
+
+    if (!soundOn && "speechSynthesis" in window) {
+        speechSynthesis.cancel();
+    }
+
+    if (soundOn) speak("Sound is on!");
+}
+
+// RUN GAME
+startGame();
+
+</script>
+
+</body>
+</html>

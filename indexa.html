@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruce Number Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        
+<!-- BACKGROUND MUSIC -->
+<audio id="backgroundMusic" loop>
+    <source src="bruce_puzzle_music.wav" type="audio/wav">
+</audio>
+
+<!-- MUSIC BUTTONS -->
+<div class="music-controls">
+    <button id="playMusic">🎵 PLAY</button>
+    <button id="stopMusic">🔇 STOP</button>
+</div>
+
+
+        <h1>🎮 Bruce Puzzle</h1>
+        <p class="subtitle">Arrange numbers from 1 to 8</p>
+
+        <div class="game-info">
+            <div class="info-box">
+                <span>LEVEL</span>
+                <h2 id="level">1</h2>
+            </div>
+
+            <div class="info-box">
+                <span>SCORE</span>
+                <h2 id="score">0</h2>
+            </div>
+
+            <div class="info-box">
+                <span>MOVES</span>
+                <h2 id="moves">0</h2>
+            </div>
+        </div>
+
+        <div class="puzzle" id="puzzle">
+            <button class="tile">1</button>
+            <button class="tile">2</button>
+            <button class="tile">3</button>
+            <button class="tile">4</button>
+            <button class="tile">5</button>
+            <button class="tile">6</button>
+            <button class="tile">7</button>
+            <button class="tile">8</button>
+            <button class="tile empty"></button>
+        </div>
+
+        <h3 id="message">Arrange numbers correctly!</h3>
+
+        <div class="buttons">
+            <button onclick="shufflePuzzle()">🔀 Shuffle</button>
+            <button onclick="resetGame()">↻ Restart</button>
+        </div>
+
+        <p class="level-info">
+            Complete the level to unlock the next level!
+        </p>
+         <a href="index.html" class="back-btn"> BACK</a>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
